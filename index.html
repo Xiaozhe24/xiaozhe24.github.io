@@ -3,134 +3,612 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的作品集</title>
+    <title>星辰博客 - 分享技术与生活</title>
+    <!-- 引入Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #f5f5f5;
+            background-color: #f8f9fa;
             color: #333;
+            line-height: 1.6;
         }
+        /* 头部样式 */
         header {
-            background-color: #2c3e50;
+            background-color: #2d3436;
             color: white;
-            padding: 20px 0;
-            text-align: center;
+            padding: 15px 0;
         }
-        nav {
-            background-color: #34495e;
-            padding: 15px;
-            text-align: center;
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        nav a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
             font-weight: bold;
         }
-        nav a:hover {
-            color: #3498db;
+        .logo i {
+            color: #0984e3;
         }
-        .container {
+        .search-bar {
+            display: flex;
+            flex: 0 0 300px;
+            margin: 0 20px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px 0 0 20px;
+            outline: none;
+        }
+        .search-bar button {
+            background-color: #0984e3;
+            color: white;
+            border: none;
+            padding: 0 15px;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+        }
+        .author-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .author-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #0984e3;
+        }
+
+        /* 导航栏样式 */
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+            padding: 12px 0;
+            gap: 5px;
+        }
+        .nav-links li a {
+            color: #2d3436;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .nav-links li a:hover, .nav-links li a.active {
+            background-color: #0984e3;
+            color: white;
+        }
+
+        /* 主内容区样式 */
+        .main-container {
             max-width: 1200px;
             margin: 30px auto;
             padding: 0 20px;
-        }
-        .about {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        .about h2 {
-            margin: 20px 0;
-            color: #2c3e50;
-        }
-        .projects {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 3fr 1fr;
             gap: 30px;
-            margin-top: 30px;
         }
-        .project-card {
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 博客列表样式 */
+        .blog-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .blog-card {
             background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+        .blog-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .blog-content {
+            padding: 25px;
+        }
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #636e72;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        .blog-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .blog-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2d3436;
+        }
+        .blog-title a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .blog-title a:hover {
+            color: #0984e3;
+        }
+        .blog-excerpt {
+            color: #636e72;
+            margin-bottom: 20px;
+        }
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #0984e3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* 侧边栏样式 */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .sidebar-widget {
+            background-color: white;
+            border-radius: 10px;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
         }
-        .project-card h3 {
+        .widget-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0984e3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .category-list {
+            list-style: none;
+        }
+        .category-list li {
             margin-bottom: 10px;
-            color: #3498db;
         }
-        footer {
-            background-color: #2c3e50;
+        .category-list a {
+            display: flex;
+            justify-content: space-between;
+            text-decoration: none;
+            color: #636e72;
+            transition: color 0.3s ease;
+        }
+        .category-list a:hover {
+            color: #0984e3;
+        }
+        .category-count {
+            background-color: #f1f2f6;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+        .popular-post {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .popular-post img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .popular-post-info a {
+            text-decoration: none;
+            color: #2d3436;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .popular-post-info a:hover {
+            color: #0984e3;
+        }
+        .popular-post-date {
+            font-size: 0.8rem;
+            color: #636e72;
+        }
+        .subscribe-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .subscribe-form input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        .subscribe-form button {
+            background-color: #0984e3;
             color: white;
-            text-align: center;
-            padding: 20px 0;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .subscribe-form button:hover {
+            background-color: #0652DD;
+        }
+
+        /* 分页样式 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+            gap: 10px;
+        }
+        .pagination a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-decoration: none;
+            color: #2d3436;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+        .pagination a:hover, .pagination a.active {
+            background-color: #0984e3;
+            color: white;
+            border-color: #0984e3;
+        }
+
+        /* 页脚样式 */
+        footer {
+            background-color: #2d3436;
+            color: white;
+            padding: 50px 0 20px;
             margin-top: 50px;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .footer-about {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .footer-logo i {
+            color: #0984e3;
+        }
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #393e46;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .social-links a:hover {
+            background-color: #0984e3;
+        }
+        .footer-links h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        .footer-links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .footer-links a {
+            color: #dfe6e9;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: #0984e3;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #393e46;
+            font-size: 0.9rem;
+            color: #b2bec3;
         }
     </style>
 </head>
 <body>
+    <!-- 头部区域 -->
     <header>
-        <h1>张三的作品集</h1>
-        <p>前端开发者 | 设计师</p>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-blog"></i>
+                <span>星辰博客</span>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="搜索文章...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <div class="author-profile">
+                <img src="https://picsum.photos/seed/author/100/100" alt="博主头像">
+                <span>张三</span>
+            </div>
+        </div>
     </header>
 
+    <!-- 导航栏 -->
     <nav>
-        <a href="#about">关于我</a>
-        <a href="#projects">项目作品</a>
-        <a href="#contact">联系方式</a>
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="#" class="active"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="#"><i class="fas fa-code"></i> 前端开发</a></li>
+                <li><a href="#"><i class="fas fa-laptop-code"></i> 后端开发</a></li>
+                <li><a href="#"><i class="fas fa-mobile-alt"></i> 移动开发</a></li>
+                <li><a href="#"><i class="fas fa-database"></i> 数据库</a></li>
+                <li><a href="#"><i class="fas fa-cloud"></i> 云计算</a></li>
+                <li><a href="#"><i class="fas fa-shield-alt"></i> 网络安全</a></li>
+                <li><a href="#"><i class="fas fa-book"></i> 读书心得</a></li>
+                <li><a href="#"><i class="fas fa-question-circle"></i> 问答</a></li>
+            </ul>
+        </div>
     </nav>
 
-    <div class="container">
-        <section id="about" class="about">
-            <img src="https://via.placeholder.com/150" alt="个人头像" style="border-radius: 50%;">
-            <h2>关于我</h2>
-            <p>我是一名热爱技术的前端开发者，擅长HTML、CSS、JavaScript和React，致力于打造用户体验优秀的网站。</p>
-        </section>
-
-        <section id="projects">
-            <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">项目作品</h2>
-            <div class="projects">
-                <div class="project-card">
-                    <h3>电商网站重构</h3>
-                    <p>使用React和Redux重构的电商平台，优化了加载速度和用户体验。</p>
-                </div>
-                <div class="project-card">
-                    <h3>响应式博客</h3>
-                    <p>基于WordPress开发的响应式博客，适配各种设备屏幕。</p>
-                </div>
-                <div class="project-card">
-                    <h3>数据可视化仪表盘</h3>
-                    <p>使用D3.js实现的数据可视化项目，展示实时业务数据。</p>
+    <!-- 主内容区 -->
+    <div class="main-container">
+        <!-- 博客列表 -->
+        <div class="blog-list">
+            <div class="blog-card">
+                <img src="https://picsum.photos/seed/blog1/800/400" alt="React性能优化技巧" class="blog-image">
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span><i class="fas fa-folder"></i> 前端开发</span>
+                        <span><i class="fas fa-calendar"></i> 2024-11-15</span>
+                        <span><i class="fas fa-eye"></i> 1.2k</span>
+                        <span><i class="fas fa-comment"></i> 32</span>
+                    </div>
+                    <h2 class="blog-title"><a href="#">React性能优化的10个实用技巧</a></h2>
+                    <p class="blog-excerpt">在大型React应用中，性能优化至关重要。本文将分享10个经过实践检验的React性能优化技巧，从组件设计到状态管理，帮助你打造更流畅的用户体验...</p>
+                    <a href="#" class="read-more">阅读全文 <i class="fas fa-long-arrow-alt-right"></i></a>
                 </div>
             </div>
-        </section>
 
-        <section id="contact" style="text-align: center; margin-top: 50px;">
-            <h2 style="color: #2c3e50; margin-bottom: 20px;">联系方式</h2>
-            <p>邮箱：example@mail.com</p>
-            <p>GitHub：github.com/yourname</p>
-        </section>
+            <div class="blog-card">
+                <img src="https://picsum.photos/seed/blog2/800/400" alt="TypeScript高级类型" class="blog-image">
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span><i class="fas fa-folder"></i> 前端开发</span>
+                        <span><i class="fas fa-calendar"></i> 2024-11-10</span>
+                        <span><i class="fas fa-eye"></i> 956</span>
+                        <span><i class="fas fa-comment"></i> 24</span>
+                    </div>
+                    <h2 class="blog-title"><a href="#">深入理解TypeScript高级类型</a></h2>
+                    <p class="blog-excerpt">TypeScript的类型系统非常强大，除了基础类型外，还有许多高级类型特性可以帮助我们编写更健壮的代码。本文将深入探讨TypeScript中的高级类型...</p>
+                    <a href="#" class="read-more">阅读全文 <i class="fas fa-long-arrow-alt-right"></i></a>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <img src="https://picsum.photos/seed/blog3/800/400" alt="Node.js性能调优" class="blog-image">
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span><i class="fas fa-folder"></i> 后端开发</span>
+                        <span><i class="fas fa-calendar"></i> 2024-11-05</span>
+                        <span><i class="fas fa-eye"></i> 1.5k</span>
+                        <span><i class="fas fa-comment"></i> 41</span>
+                    </div>
+                    <h2 class="blog-title"><a href="#">Node.js服务性能调优实践</a></h2>
+                    <p class="blog-excerpt">随着Node.js在生产环境中的广泛应用，性能问题日益凸显。本文结合实际项目经验，分享Node.js服务的性能瓶颈分析方法和优化策略...</p>
+                    <a href="#" class="read-more">阅读全文 <i class="fas fa-long-arrow-alt-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <!-- 分类 -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title"><i class="fas fa-th-list"></i> 文章分类</h3>
+                <ul class="category-list">
+                    <li><a href="#">前端开发 <span class="category-count">42</span></a></li>
+                    <li><a href="#">后端开发 <span class="category-count">36</span></a></li>
+                    <li><a href="#">移动开发 <span class="category-count">28</span></a></li>
+                    <li><a href="#">数据库 <span class="category-count">21</span></a></li>
+                    <li><a href="#">云计算 <span class="category-count">15</span></a></li>
+                    <li><a href="#">网络安全 <span class="category-count">18</span></a></li>
+                    <li><a href="#">读书心得 <span class="category-count">25</span></a></li>
+                </ul>
+            </div>
+
+            <!-- 热门文章 -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title"><i class="fas fa-fire"></i> 热门文章</h3>
+                <div class="popular-post">
+                    <img src="https://picsum.photos/seed/pop1/100/100" alt="热门文章">
+                    <div class="popular-post-info">
+                        <a href="#">2024年前端框架趋势分析</a>
+                        <div class="popular-post-date"><i class="far fa-calendar"></i> 2024-10-28</div>
+                    </div>
+                </div>
+                <div class="popular-post">
+                    <img src="https://picsum.photos/seed/pop2/100/100" alt="热门文章">
+                    <div class="popular-post-info">
+                        <a href="#">从零开始搭建微服务架构</a>
+                        <div class="popular-post-date"><i class="far fa-calendar"></i> 2024-10-15</div>
+                    </div>
+                </div>
+                <div class="popular-post">
+                    <img src="https://picsum.photos/seed/pop3/100/100" alt="热门文章">
+                    <div class="popular-post-info">
+                        <a href="#">JavaScript设计模式实战</a>
+                        <div class="popular-post-date"><i class="far fa-calendar"></i> 2024-10-08</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 订阅 -->
+            <div class="sidebar-widget">
+                <h3 class="widget-title"><i class="fas fa-envelope"></i> 订阅博客</h3>
+                <p>订阅我的博客更新，第一时间获取最新文章</p>
+                <form class="subscribe-form">
+                    <input type="email" placeholder="输入你的邮箱" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i> 订阅</button>
+                </form>
+            </div>
+        </div>
     </div>
 
+    <!-- 分页 -->
+    <div class="pagination">
+        <a href="#"><i class="fas fa-angle-left"></i></a>
+        <a href="#" class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#"><i class="fas fa-angle-right"></i></a>
+    </div>
+
+    <!-- 页脚 -->
     <footer>
-        <p>&copy; 2024 张三的作品集 | 保留所有权利</p>
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <i class="fas fa-blog"></i>
+                    <span>星辰博客</span>
+                </div>
+                <p>分享技术与生活的个人博客，记录学习历程，交流技术心得。</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-weixin"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>快速链接</h3>
+                <ul>
+                    <li><a href="#">关于我</a></li>
+                    <li><a href="#">文章归档</a></li>
+                    <li><a href="#">技术栈</a></li>
+                    <li><a href="#">资源分享</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>技术分类</h3>
+                <ul>
+                    <li><a href="#">前端开发</a></li>
+                    <li><a href="#">后端开发</a></li>
+                    <li><a href="#">移动开发</a></li>
+                    <li><a href="#">数据库</a></li>
+                    <li><a href="#">云计算</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>联系我</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-envelope"></i> contact@example.com</a></li>
+                    <li><a href="#"><i class="fab fa-github"></i> github.com/username</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> 北京市海淀区</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 星辰博客 | 保留所有权利 <i class="fas fa-heart"></i></p>
+        </div>
     </footer>
 
     <script>
         // 平滑滚动效果
-        document.querySelectorAll('nav a').forEach(anchor => {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
-                document.querySelector(targetId).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (targetId !== '#') {
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
         });
     </script>
 </body>
